@@ -16,7 +16,7 @@ const OneHalf = styled.div`
   height: 100vh;
 `;
 
-const COMPASS_BEARING = 107;
+const COMPASS_BEARING = 120;
 const CAMERA = {
   location: {
     latitude: 49.75647,

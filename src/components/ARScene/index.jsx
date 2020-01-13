@@ -16,6 +16,7 @@ const SceneWrapper = styled.div`
   width: ${props => props.width}px;
   height: ${props => props.height}px;
   position: relative;
+  background: white;
   > img {
     position: absolute;
     top: 0;
@@ -59,10 +60,10 @@ const Scene = ({ targets, cameraProps, bearing }) => {
 
   useEffect(() => {
     if (!enableControls) {
-      const rotation = { x: 0, y: bearing * 1, z: 0 };
-      scene.rotation.x = (rotation.x * Math.PI) / 180;
-      scene.rotation.y = (rotation.y * Math.PI) / 180;
-      scene.rotation.z = (rotation.z * Math.PI) / 180;
+      const rotation = { x: 0, y: bearing * -1, z: 0 };
+      camera.rotation.x = (rotation.x * Math.PI) / 180;
+      camera.rotation.y = (rotation.y * Math.PI) / 180;
+      camera.rotation.z = (rotation.z * Math.PI) / 180;
     }
   }, [bearing]);
 
@@ -89,7 +90,7 @@ const ARScene = ({ targets, cameraProps, bearing }) => {
       <Canvas
         camera={{
           zoom: 0.5,
-          position: [0, 5, 5],
+          position: [0, 5, 0],
           fov: 55
         }}
       >
