@@ -5,23 +5,25 @@ import { Canvas, extend, useThree, useRender } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { calculateTargetPositionInMeters } from "./utils";
-// import cars from "./cars.jpg";
+import church from "./church.jpg";
 
 extend({ OrbitControls });
 
-const HEIGHT = window.innerHeight / 2; // px
+const IMAGE_RATIO = 4032 / 3024;
+
 const WIDTH = window.innerWidth / 2; // px
+const HEIGHT = WIDTH / IMAGE_RATIO;
 
 const SceneWrapper = styled.div`
   width: ${props => props.width}px;
   height: ${props => props.height}px;
   position: relative;
-  background: white;
   > img {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0.6;
+    opacity: 0.7;
+    width: 100%;
   }
 `;
 
@@ -45,8 +47,13 @@ const Target = ({ cameraLocation, target }) => {
     cameraLocation,
     target.location
   );
+  console.log(target.id, position);
   return (
-    <mesh position={position} rotation={[0, 0, 0]}>
+    <mesh
+      position={position}
+      rotation={[0, 0, 0]}
+      onClick={() => console.log(target.id)}
+    >
       <boxBufferGeometry attach="geometry" args={[5, 5, 5]} />
       <meshNormalMaterial attach="material" />
     </mesh>
@@ -86,12 +93,13 @@ const Scene = ({ targets, cameraProps, bearing }) => {
 const ARScene = ({ targets, cameraProps, bearing }) => {
   return (
     <SceneWrapper height={HEIGHT} width={WIDTH}>
-      {/* <img src={cars} alt="cars" /> */}
+      <img src={church} alt="cars" />
       <Canvas
         camera={{
-          zoom: 0.5,
-          position: [0, 5, 0],
-          fov: 55
+          position: [0, 1.5, 0],
+          fov: 85,
+          near: 0.005,
+          far: 1000
         }}
       >
         <Scene targets={targets} cameraProps={cameraProps} bearing={bearing} />

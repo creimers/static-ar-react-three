@@ -2,11 +2,7 @@ import React from "react";
 import ReactMapboxGl, { GeoJSONLayer, ZoomControl } from "react-mapbox-gl";
 
 import styled from "styled-components";
-import { multiPoint } from "@turf/helpers";
-
-// import { Button, Icon } from "semantic-ui-react";
-// import { useAppState } from "./../../context/app";
-// import VesselGeojson from "./VesselGeojson";
+import { multiPoint, point } from "@turf/helpers";
 
 const MapWrapper = styled.div`
   position: relative;
@@ -15,7 +11,7 @@ const MapWrapper = styled.div`
 
 const Map = ReactMapboxGl({
   accessToken:
-    "pk.eyJ1IjoiY3JlaW1lcnMiLCJhIjoiY2pveWlmZ3ZnMmMydTNzbnJlZHZjcjR5cSJ9.p-VEld9_5rCSdqy-C3Y2Rg"
+    "pk.eyJ1IjoiY3JlaW1lcnMiLCJhIjoiY2s1ZHA3aHByMGRsbTNtczBsaG9veDFjNCJ9.DwojAPJkDcYeVF5E-d2Ndg"
 });
 
 const TheMap = ({ height, center, bearing, zoom, markers }) => {
@@ -24,7 +20,10 @@ const TheMap = ({ height, center, bearing, zoom, markers }) => {
     circleColor: "red",
     circleRadius: 10
   });
-  console.log(geojsonPoints);
+  const cameraPoint = point(center, {
+    circleColor: "blue",
+    circleRadius: 10
+  });
   if (height > 0) {
     return (
       <MapWrapper height={height}>
@@ -39,6 +38,16 @@ const TheMap = ({ height, center, bearing, zoom, markers }) => {
         >
           <GeoJSONLayer
             data={geojsonPoints}
+            fillPaint={{
+              "fill-color": ["get", "color"]
+            }}
+            circlePaint={{
+              "circle-color": ["get", "circleColor"],
+              "circle-radius": ["get", "circleRadius"]
+            }}
+          />
+          <GeoJSONLayer
+            data={cameraPoint}
             fillPaint={{
               "fill-color": ["get", "color"]
             }}

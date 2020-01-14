@@ -24,7 +24,7 @@ export const calculateTargetPositionInMeters = (
   let x = distance(cameraLocationGeojson, xDestGeojson) * 1000;
   x *= targetLocation.longitude > cameraLocation.longitude ? 1 : -1;
 
-  console.log("x", x);
+  // console.log("x", x);
   // z
   const zDest = {
     longitude: cameraLocation.longitude,
@@ -37,7 +37,7 @@ export const calculateTargetPositionInMeters = (
   let z = distance(cameraLocationGeojson, zDestGeojson) * 1000;
   z *= targetLocation.latitude > cameraLocation.latitude ? -1 : 1;
 
-  console.log("z", z);
+  // console.log("z", z);
 
   // console.log(targetLocation.latitude > cameraLocation.latitude);
 

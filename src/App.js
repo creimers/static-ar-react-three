@@ -7,7 +7,7 @@ import TheMap from "./components/Map";
 
 const AppWrapper = styled.div`
   height: 100vh;
-  background: lightblue;
+  background: grey;
   display: flex;
 `;
 
@@ -16,15 +16,13 @@ const OneHalf = styled.div`
   height: 100vh;
 `;
 
-const COMPASS_BEARING = 120;
+const COMPASS_BEARING = 109;
+
 const CAMERA = {
   location: {
-    latitude: 49.75647,
-    longitude: 6.64225
-  },
-  height: 1.5,
-  near: 0.005,
-  far: 10000
+    latitude: 49.75649,
+    longitude: 6.6422
+  }
 };
 
 const TARGETS = [
