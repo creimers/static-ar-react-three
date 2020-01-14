@@ -11,7 +11,7 @@ const MapWrapper = styled.div`
 
 const Map = ReactMapboxGl({
   accessToken:
-    "pk.eyJ1IjoiY3JlaW1lcnMiLCJhIjoiY2s1ZHA3aHByMGRsbTNtczBsaG9veDFjNCJ9.DwojAPJkDcYeVF5E-d2Ndg"
+    "pk.eyJ1IjoiY3JlaW1lcnMiLCJhIjoib2RDSi1CYyJ9.2_wYiAfgmf9aUn0t-OPY8Q"
 });
 
 const TheMap = ({ height, center, bearing, zoom, markers }) => {
