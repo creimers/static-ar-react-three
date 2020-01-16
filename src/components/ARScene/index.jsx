@@ -48,7 +48,6 @@ const Target = ({ cameraLocation, target }) => {
     cameraLocation,
     target.location
   );
-  // console.log(target.id, position);
   return (
     <mesh
       position={position}
@@ -124,6 +123,22 @@ const Scene = ({ targets, cameraProps, heading }) => {
           cameraLocation={cameraProps.location}
         />
       ))}
+      {targets.map((target, i) => {
+        const position = calculateTargetPositionInMeters(
+          cameraProps.location,
+          target.location
+        );
+        return (
+          <line position={[0, 0, 0]} key={`line-${i}`}>
+            <geometry
+              attach="geometry"
+              vertices={[[0, 0, 0], position].map(v => new THREE.Vector3(...v))}
+              onUpdate={self => (self.verticesNeedUpdate = true)}
+            />
+            <lineBasicMaterial attach="material" color="pink" lineWidth="5" />
+          </line>
+        );
+      })}
     </>
   );
 };
@@ -134,7 +149,7 @@ const ARScene = ({ targets, cameraProps, heading }) => {
       <img src={church} alt="cars" />
       <Canvas
         camera={{
-          position: [0, 1.6, 0], // from ar.js or a-frame
+          position: [0, 5, 0], // from ar.js or a-frame
           fov: 60,
           near: 0.005,
           far: 1000
