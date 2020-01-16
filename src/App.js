@@ -16,7 +16,7 @@ const OneHalf = styled.div`
   height: 100vh;
 `;
 
-const COMPASS_BEARING = 109;
+const CAMERA_HEADING = 109;
 
 const CAMERA = {
   location: {
@@ -56,13 +56,13 @@ function App() {
         <ARScene
           targets={TARGETS}
           cameraProps={CAMERA}
-          bearing={COMPASS_BEARING}
+          heading={CAMERA_HEADING}
         />
       </OneHalf>
       <OneHalf>
         <TheMap
           center={[CAMERA.location.longitude, CAMERA.location.latitude]}
-          bearing={[COMPASS_BEARING]}
+          bearing={[CAMERA_HEADING]}
           height={window.innerHeight}
           zoom={18}
           markers={TARGETS}
