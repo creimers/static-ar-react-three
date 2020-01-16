@@ -86,9 +86,22 @@ const Scene = ({ targets, cameraProps, heading }) => {
   //   camera.updateProjectionMatrix();
   // });
 
+  useInterval(() => {
+    console.log("===============");
+    console.log("posikotion", camera.position);
+    console.log("rotation", camera.rotation);
+  }, 1000);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // initially set rotation order to YXZ (rotate the y axis (vertical)) first!!
+  /////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    camera.rotation.reorder("YXZ");
+  });
+
   useEffect(() => {
     if (!enableControls) {
-      // calculation stolen from here:
+      // calculation inspiration from here:
       // https://github.com/jeromeetienne/AR.js/blob/master/aframe/src/location-based/gps-camera.js#L312
 
       const bearing = 360 - heading;
@@ -122,7 +135,7 @@ const ARScene = ({ targets, cameraProps, heading }) => {
       <Canvas
         camera={{
           position: [0, 1.6, 0], // from ar.js or a-frame
-          fov: 85,
+          fov: 60,
           near: 0.005,
           far: 1000
         }}
