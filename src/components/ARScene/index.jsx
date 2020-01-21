@@ -3,13 +3,14 @@ import styled from "styled-components";
 import * as THREE from "three";
 import { Canvas, extend, useThree, useRender } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import useInterval from "@use-it/interval";
 
 import { calculateTargetPositionInMeters } from "./utils";
 import church from "./church.jpg";
 
 extend({ OrbitControls });
 
-const IMAGE_RATIO = 4032 / 3024;
+const IMAGE_RATIO = 4032 / 3024; // actual size of the photo
 
 const WIDTH = window.innerWidth / 2; // px
 const HEIGHT = WIDTH / IMAGE_RATIO;
@@ -30,6 +31,7 @@ const SceneWrapper = styled.div`
 function Controls() {
   const ref = useRef();
   const { camera, gl } = useThree();
+  // console.log(camera)
   useRender(() => ref.current && ref.current.update());
   return (
     <orbitControls
@@ -47,7 +49,7 @@ const Target = ({ cameraLocation, target }) => {
     cameraLocation,
     target.location
   );
-  console.log(target.id, position);
+  // console.log(target.id, position);
   return (
     <mesh
       position={position}
@@ -62,17 +64,28 @@ const Target = ({ cameraLocation, target }) => {
 
 const enableControls = false;
 
-const Scene = ({ targets, cameraProps, bearing }) => {
+const Scene = ({ targets, cameraProps, heading }) => {
   const { camera, scene } = useThree();
+
+  /////////////////////////////////////////////////////////////////////////////
+  // initially set rotation order to YXZ (rotate the y axis (vertical)) first!!
+  /////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    camera.rotation.reorder("YXZ");
+  });
 
   useEffect(() => {
     if (!enableControls) {
-      const rotation = { x: 0, y: bearing * -1, z: 0 };
-      camera.rotation.x = (rotation.x * Math.PI) / 180;
-      camera.rotation.y = (rotation.y * Math.PI) / 180;
-      camera.rotation.z = (rotation.z * Math.PI) / 180;
+      // calculation inspiration from here:
+      // https://github.com/jeromeetienne/AR.js/blob/master/aframe/src/location-based/gps-camera.js#L312
+
+      const bearing = 360 - heading;
+      const offset = bearing % 360;
+      const offsetRad = THREE.Math.degToRad(offset);
+
+      camera.rotation.y = offsetRad;
     }
-  }, [bearing]);
+  }, [heading]);
 
   return (
     <>
@@ -86,23 +99,40 @@ const Scene = ({ targets, cameraProps, bearing }) => {
           cameraLocation={cameraProps.location}
         />
       ))}
+      {targets.map((target, i) => {
+        const position = calculateTargetPositionInMeters(
+          cameraProps.location,
+          target.location
+        );
+        return (
+          <line position={[0, 0, 0]} key={`line-${i}`}>
+            <geometry
+              attach="geometry"
+              vertices={[[0, 0, 0], position].map(v => new THREE.Vector3(...v))}
+              onUpdate={self => (self.verticesNeedUpdate = true)}
+            />
+            <lineBasicMaterial attach="material" color="pink" lineWidth="5" />
+          </line>
+        );
+      })}
     </>
   );
 };
 
-const ARScene = ({ targets, cameraProps, bearing }) => {
+const ARScene = ({ targets, cameraProps, heading }) => {
   return (
     <SceneWrapper height={HEIGHT} width={WIDTH}>
       <img src={church} alt="cars" />
       <Canvas
         camera={{
-          position: [0, 1.5, 0],
-          fov: 85,
+          position: [0, 1.6, 0],
+          fov: 60,
           near: 0.005,
-          far: 1000
+          far: 1000,
+          zoom: 1
         }}
       >
-        <Scene targets={targets} cameraProps={cameraProps} bearing={bearing} />
+        <Scene targets={targets} cameraProps={cameraProps} heading={heading} />
       </Canvas>
     </SceneWrapper>
   );

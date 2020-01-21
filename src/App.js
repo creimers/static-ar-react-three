@@ -7,7 +7,7 @@ import TheMap from "./components/Map";
 
 const AppWrapper = styled.div`
   height: 100vh;
-  background: grey;
+  background: white;
   display: flex;
 `;
 
@@ -16,7 +16,11 @@ const OneHalf = styled.div`
   height: 100vh;
 `;
 
-const COMPASS_BEARING = 109;
+const Legend = styled.div`
+  padding: 0rem 1rem;
+`;
+
+const CAMERA_HEADING = 110; // == heading in ar.js
 
 const CAMERA = {
   location: {
@@ -36,8 +40,8 @@ const TARGETS = [
   {
     id: "No. 4",
     location: {
-      latitude: 49.75665,
-      longitude: 6.64314
+      latitude: 49.75659,
+      longitude: 6.64312
     }
   },
   {
@@ -53,16 +57,37 @@ function App() {
   return (
     <AppWrapper>
       <OneHalf>
+        <Legend>
+          <h3>AR overlay</h3>
+          <p>
+            The <strong>objective</strong> is to create a static AR overlay on
+            top of the image.
+          </p>
+          <p>
+            The <strong>challenge</strong> is to get the camera and scene
+            configuration right.
+          </p>
+          <p>
+            The three.js boxes should be matching their "real life" objects.
+          </p>
+          <p>From left to right, these are:</p>
+          <ul>
+            <li>The corner of white house left of the church</li>
+            <li>The center of the church</li>
+            <li>The little blue fountain at the right edge of the image</li>
+          </ul>
+          <p>On the map, the blue dot represents the position of the camera.</p>
+        </Legend>
         <ARScene
           targets={TARGETS}
           cameraProps={CAMERA}
-          bearing={COMPASS_BEARING}
+          heading={CAMERA_HEADING}
         />
       </OneHalf>
       <OneHalf>
         <TheMap
           center={[CAMERA.location.longitude, CAMERA.location.latitude]}
-          bearing={[COMPASS_BEARING]}
+          bearing={[CAMERA_HEADING]}
           height={window.innerHeight}
           zoom={18}
           markers={TARGETS}

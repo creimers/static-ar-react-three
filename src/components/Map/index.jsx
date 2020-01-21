@@ -2,7 +2,7 @@ import React from "react";
 import ReactMapboxGl, { GeoJSONLayer, ZoomControl } from "react-mapbox-gl";
 
 import styled from "styled-components";
-import { multiPoint, point } from "@turf/helpers";
+import { lineString, multiLineString, multiPoint, point } from "@turf/helpers";
 
 const MapWrapper = styled.div`
   position: relative;
@@ -24,6 +24,13 @@ const TheMap = ({ height, center, bearing, zoom, markers }) => {
     circleColor: "blue",
     circleRadius: 10
   });
+
+  const lines = markers.map(m => [
+    center,
+    [m.location.longitude, m.location.latitude]
+  ]);
+  const mulitlines = multiLineString([...lines]);
+
   if (height > 0) {
     return (
       <MapWrapper height={height}>
@@ -55,6 +62,10 @@ const TheMap = ({ height, center, bearing, zoom, markers }) => {
               "circle-color": ["get", "circleColor"],
               "circle-radius": ["get", "circleRadius"]
             }}
+          />
+          <GeoJSONLayer
+            data={mulitlines}
+            linePaint={{ "line-color": "pink", "line-width": 2 }}
           />
           <ZoomControl position="top-left" className="mapbox-zoom" />
         </Map>
