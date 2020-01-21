@@ -10,7 +10,7 @@ import church from "./church.jpg";
 
 extend({ OrbitControls });
 
-const IMAGE_RATIO = 4032 / 3024;
+const IMAGE_RATIO = 4032 / 3024; // actual size of the photo
 
 const WIDTH = window.innerWidth / 2; // px
 const HEIGHT = WIDTH / IMAGE_RATIO;
@@ -31,6 +31,7 @@ const SceneWrapper = styled.div`
 function Controls() {
   const ref = useRef();
   const { camera, gl } = useThree();
+  // console.log(camera)
   useRender(() => ref.current && ref.current.update());
   return (
     <orbitControls
@@ -64,32 +65,6 @@ const enableControls = false;
 
 const Scene = ({ targets, cameraProps, heading }) => {
   const { camera, scene } = useThree();
-
-  // useInterval(() => {
-  //   const heading = camera.rotation.y;
-  //   const radians = heading; // > 0 ? heading : 2 * Math.PI + heading;
-  //   const degrees = THREE.Math.radToDeg(radians);
-
-  //   // console.log("rotation", camera.rotation);
-  //   console.log("y-rotation", camera.rotation.y);
-  //   console.log("y-rotation deg", degrees);
-  //   console.log("bearing", (bearing * Math.PI) / 180);
-  // }, 1000);
-
-  // useEffect(() => {
-  //   camera.position.y = 10;
-  //   // camera.lookAt(scene.position);
-  //   // camera.lookAt(0, 0, -200);
-  //   // camera.translateY(29);
-  //   // scene.translateY(-30);
-  //   camera.updateProjectionMatrix();
-  // });
-
-  useInterval(() => {
-    console.log("===============");
-    console.log("posikotion", camera.position);
-    console.log("rotation", camera.rotation);
-  }, 1000);
 
   /////////////////////////////////////////////////////////////////////////////
   // initially set rotation order to YXZ (rotate the y axis (vertical)) first!!
@@ -149,10 +124,11 @@ const ARScene = ({ targets, cameraProps, heading }) => {
       <img src={church} alt="cars" />
       <Canvas
         camera={{
-          position: [0, 5, 0], // from ar.js or a-frame
+          position: [0, 1.6, 0],
           fov: 60,
           near: 0.005,
-          far: 1000
+          far: 1000,
+          zoom: 1
         }}
       >
         <Scene targets={targets} cameraProps={cameraProps} heading={heading} />
