@@ -49,6 +49,7 @@ const Target = ({ cameraLocation, target }) => {
     cameraLocation,
     target.location
   );
+
   return (
     <mesh
       position={position}

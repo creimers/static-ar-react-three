@@ -71,7 +71,7 @@ function App() {
           <p>
             The three.js boxes should be matching their "real life" objects.
           </p>
-          <p>From left to right, these are:</p>
+          <p>From left to right indicated by the red circles, these are:</p>
           <ul>
             <li>The corner of white house left of the church</li>
             <li>The center of the church</li>
