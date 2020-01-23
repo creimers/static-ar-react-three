@@ -43,3 +43,45 @@ export const calculateTargetPositionInMeters = (
 
   return [x, 0, z]; // [x, y, z]
 };
+
+function toRadians(angle) {
+  return angle * (Math.PI / 180);
+}
+
+export const getCameraPosition = (x, y, z, heading) => {
+  let xHat = 0;
+  let yHat = y;
+  let zHat = 0;
+
+  if (heading === 0 || heading === 360) {
+    xHat = x;
+    zHat = z;
+  } else if (heading === 90) {
+    zHat = x;
+    xHat = z;
+  } else if (heading === 180) {
+    zHat = z * -1;
+    xHat = x * -1;
+  } else if (heading === 270) {
+    xHat = z * -1;
+    zHat = x * -1;
+  } else {
+    let alpha, oppositeLeg, adjacentLeg;
+    const hypotenuse = z;
+    if (heading < 90) {
+      alpha = heading;
+      oppositeLeg = Math.sin(toRadians(alpha)) * hypotenuse;
+      xHat = oppositeLeg;
+      adjacentLeg = Math.sqrt(hypotenuse ** 2 - oppositeLeg ** 2);
+      zHat = adjacentLeg;
+    } else if (heading < 180) {
+      alpha = 180 - heading;
+    } else if (heading < 270) {
+      alpha = 270 - heading;
+    } else if (heading < 360) {
+      alpha = 360 - heading;
+    }
+  }
+
+  return { x: xHat, y: yHat, z: zHat };
+};
