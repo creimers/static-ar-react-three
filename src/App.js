@@ -22,6 +22,7 @@ const Legend = styled.div`
 
 const CAMERA_HEADING = 110; // == heading in ar.js
 
+
 const CAMERA = {
   location: {
     latitude: 49.75649,
