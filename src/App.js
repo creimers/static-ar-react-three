@@ -20,8 +20,7 @@ const Legend = styled.div`
   padding: 0rem 1rem;
 `;
 
-const CAMERA_HEADING = 110; // == heading in ar.js
-
+const CAMERA_HEADING = 108.5; // == heading in ar.js
 
 const CAMERA = {
   location: {

@@ -1,5 +1,34 @@
 import distance from "@turf/distance";
 import { point } from "@turf/helpers";
+import transformTranslate from "@turf/transform-translate";
+
+/**
+ * calculate the position of the rotated camera using turf.js
+ */
+export const getCameraPositionTurf = (
+  cameraLat,
+  cameraLng,
+  distance,
+  heading
+) => {
+  const options = {
+    units: "kilometers"
+  };
+  distance = distance * 0.001; // m to km
+  const cameraPoint = point([cameraLng, cameraLat]);
+  const newPoint = transformTranslate(cameraPoint, distance, heading, options);
+
+  const cameraLocation = {
+    latitude: cameraLat,
+    longitude: cameraLng
+  };
+
+  const targetLocation = {
+    latitude: newPoint.geometry.coordinates[1],
+    longitude: newPoint.geometry.coordinates[0]
+  };
+  return calculateTargetPositionInMeters(cameraLocation, targetLocation);
+};
 
 export const calculateTargetPositionInMeters = (
   cameraLocation,

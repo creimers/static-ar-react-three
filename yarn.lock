@@ -1484,6 +1484,13 @@
   dependencies:
     "@turf/meta" "^4.7.3"
 
+"@turf/clone@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@turf/clone/-/clone-5.1.5.tgz#253e8d35477181976e33adfab50a0f02a7f0e367"
+  integrity sha1-JT6NNUdxgZduM636tQoPAqfw42c=
+  dependencies:
+    "@turf/helpers" "^5.1.5"
+
 "@turf/distance@6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@turf/distance/-/distance-6.0.1.tgz#0761f28784286e7865a427c4e7e3593569c2dea8"
@@ -1502,6 +1509,11 @@
   resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-6.1.4.tgz#d6fd7ebe6782dd9c87dca5559bda5c48ae4c3836"
   integrity sha512-vJvrdOZy1ngC7r3MDA7zIGSoIgyrkWcGnNIEaqn/APmw+bVLF2gAW7HIsdTxd12s5wQMqEpqIQrmrbRRZ0xC7g==
 
+"@turf/helpers@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-5.1.5.tgz#153405227ab933d004a5bb9641a9ed999fcbe0cf"
+  integrity sha1-FTQFInq5M9AEpbuWQantmZ/L4M8=
+
 "@turf/invariant@6.x":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-6.1.2.tgz#6013ed6219f9ac2edada9b31e1dfa5918eb0a2f7"
@@ -1509,10 +1521,43 @@
   dependencies:
     "@turf/helpers" "6.x"
 
+"@turf/invariant@^5.1.5":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-5.2.0.tgz#f0150ff7290b38577b73d088b7932c1ee0aa90a7"
+  integrity sha1-8BUP9ykLOFd7c9CIt5MsHuCqkKc=
+  dependencies:
+    "@turf/helpers" "^5.1.5"
+
 "@turf/meta@^4.7.3":
   version "4.7.4"
   resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-4.7.4.tgz#6de2f1e9890b8f64b669e4b47c09b20893063977"
   integrity sha1-beLx6YkLj2S2aeS0fAmyCJMGOXc=
+
+"@turf/meta@^5.1.5":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-5.2.0.tgz#3b1ad485ee0c3b0b1775132a32c384d53e4ba53d"
+  integrity sha1-OxrUhe4MOwsXdRMqMsOE1T5LpT0=
+  dependencies:
+    "@turf/helpers" "^5.1.5"
+
+"@turf/rhumb-destination@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@turf/rhumb-destination/-/rhumb-destination-5.1.5.tgz#b1b2aeb921547f2ac0c1a994b6a130f92463c742"
+  integrity sha1-sbKuuSFUfyrAwamUtqEw+SRjx0I=
+  dependencies:
+    "@turf/helpers" "^5.1.5"
+    "@turf/invariant" "^5.1.5"
+
+"@turf/transform-translate@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@turf/transform-translate/-/transform-translate-5.1.5.tgz#530a257fb1dc7268dadcab34e67901eb2a3dec63"
+  integrity sha1-Uwolf7Hccmja3Ks05nkB6yo97GM=
+  dependencies:
+    "@turf/clone" "^5.1.5"
+    "@turf/helpers" "^5.1.5"
+    "@turf/invariant" "^5.1.5"
+    "@turf/meta" "^5.1.5"
+    "@turf/rhumb-destination" "^5.1.5"
 
 "@types/babel__core@^7.1.0":
   version "7.1.3"
@@ -1556,11 +1601,6 @@
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
-
-"@types/geojson@*":
-  version "7946.0.7"
-  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"
-  integrity sha512-wE2v81i4C4Ol09RtsWFAqg3BUitWbHSpSlIo+bNdsCJijO9sjme+zm+73ZMCa/qMC8UEERxzGbvmr1cffo2SiQ==
 
 "@types/glob@^7.1.1":
   version "7.1.1"
@@ -1641,13 +1681,6 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
-"@types/supercluster@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@types/supercluster/-/supercluster-5.0.1.tgz#0b25cca65b06d22fc24acc6b004843acd5d105a9"
-  integrity sha512-HpL0RXND3iR4O5MXi/4X+PoTkHA6sEFDq54qRD1Ps0YeceL5jyg9gMUeQvNU9HJpUXWbzwpCTP9hH3yQAqF9wg==
-  dependencies:
-    "@types/geojson" "*"
-
 "@types/testing-library__dom@*", "@types/testing-library__dom@^6.0.0":
   version "6.11.1"
   resolved "https://registry.yarnpkg.com/@types/testing-library__dom/-/testing-library__dom-6.11.1.tgz#6058a6ac391db679f7c60dbb27b81f0620de2dd9"
@@ -1718,7 +1751,7 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@use-it/interval@^0.1.3":
+"@use-it/interval@0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@use-it/interval/-/interval-0.1.3.tgz#5d1096b2295d7a5dda8e8022f3abb5f9d9ef27f8"
   integrity sha512-chshdtDZTFoWA9aszBz1Cc04Ca9NBD2JTi/GMjdJ+HGm4q7Vy1v71+2mm22r7Kfb2nYW+lTRsPcEHdB/VFVHsQ==
@@ -6334,6 +6367,11 @@ jsx-ast-utils@^2.2.1:
     array-includes "^3.0.3"
     object.assign "^4.1.0"
 
+kdbush@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-1.0.1.tgz#3cbd03e9dead9c0f6f66ccdb96450e5cecc640e0"
+  integrity sha1-PL0D6d6tnA9vZszblkUOXOzGQOA=
+
 kdbush@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-3.0.0.tgz#f8484794d47004cc2d85ed3a79353dbe0abc2bf0"
@@ -6404,11 +6442,6 @@ lcid@^2.0.0:
   integrity sha512-avPEb8P8EGnwXKClwsNUgryVjllcRqtMYa49NTsbQagYuT1DcXnl1915oxWjoyGrXR6zH/Y0Zc96xWsPcoDKeA==
   dependencies:
     invert-kv "^2.0.0"
-
-leaflet@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
-  integrity sha512-CPkhyqWUKZKFJ6K8umN5/D2wrJ2+/8UIpXppY7QDnUZW5bZL5+SEI2J7GBpwh4LIupOKqbNSQXgqmrEJopHVNQ==
 
 left-pad@^1.3.0:
   version "1.3.0"
@@ -8690,16 +8723,15 @@ react-is@^16.6.0, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
 
-react-mapbox-gl@^4.8.2:
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/react-mapbox-gl/-/react-mapbox-gl-4.8.2.tgz#3814a42d35adc53194d3920eeac72910dbcebd65"
-  integrity sha512-NAN1dgVDpjxTtqQuhPX1OUkVhS1o8KJ+jRoAN0Q/8gSWLaQlYLkC1ZOYRRj8KcoRP3Px/ya0DJsORiStz0P+eA==
+react-mapbox-gl@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-mapbox-gl/-/react-mapbox-gl-4.6.0.tgz#0b6f3ebb43413c136731a1ea74328534af336af5"
+  integrity sha512-+7v9ZeD3Fi44u+e/0OCptlafOriyF94F9C7RhoMr0d4Mn9nfwN2IfNy4fhCh2QhMAZGlvhjId2DARM51t1NvIQ==
   dependencies:
     "@turf/bbox" "4.7.3"
     "@turf/helpers" "4.7.3"
-    "@types/supercluster" "^5.0.1"
     deep-equal "1.0.1"
-    supercluster "^7.0.0"
+    supercluster "3.0.2"
 
 react-promise-suspense@^0.3.1:
   version "0.3.2"
@@ -10001,6 +10033,13 @@ stylis@^3.5.0:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
   integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
+
+supercluster@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-3.0.2.tgz#370d6b4fcc9381f034f60f950593d7e4de3235ef"
+  integrity sha512-3Fm2/9YcoCE26M4FlSkGU7xYYpDAFWlxaChdx31h0I08ywRhcF2W1NKbsi+APqaxxn8TSXH/HvMhl4nEf+9lJA==
+  dependencies:
+    kdbush "^1.0.1"
 
 supercluster@^7.0.0:
   version "7.0.0"

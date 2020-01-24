@@ -5,7 +5,10 @@ import { Canvas, extend, useThree, useRender } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import useInterval from "@use-it/interval";
 
-import { calculateTargetPositionInMeters } from "./utils";
+import {
+  calculateTargetPositionInMeters,
+  getCameraPositionTurf
+} from "./utils";
 import church from "./church.jpg";
 
 extend({ OrbitControls });
@@ -56,7 +59,7 @@ const Target = ({ cameraLocation, target }) => {
       rotation={[0, 0, 0]}
       onClick={() => console.log(target.id)}
     >
-      <boxBufferGeometry attach="geometry" args={[5, 5, 5]} />
+      <boxBufferGeometry attach="geometry" args={[2, 2, 2]} />
       <meshNormalMaterial attach="material" />
     </mesh>
   );
@@ -84,6 +87,19 @@ const Scene = ({ targets, cameraProps, heading }) => {
       const offsetRad = THREE.Math.degToRad(offset);
 
       camera.rotation.y = offsetRad;
+
+      const zDist = 0; // m
+      const [x, y, z] = getCameraPositionTurf(
+        cameraProps.location.latitude,
+        cameraProps.location.longitude,
+        zDist,
+        heading * -1
+      );
+
+      // console.log(x, y, z);
+
+      camera.position.z = z * -1;
+      camera.position.x = x;
     }
   }, [heading]);
 
@@ -125,10 +141,10 @@ const ARScene = ({ targets, cameraProps, heading }) => {
       <img src={church} alt="cars" />
       <Canvas
         camera={{
-          position: [0, 1.6, 0],
-          fov: 60,
+          position: [0, 2, 0],
+          fov: 55,
           near: 0.005,
-          far: 1000,
+          far: 10000,
           zoom: 1
         }}
       >

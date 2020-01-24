@@ -1,4 +1,4 @@
-import { getCameraPosition } from "./utils";
+import { getCameraPosition, getCameraPositionTurf } from "./utils";
 
 test("returns an object with numbers", () => {
   const { x, y, z } = getCameraPosition(0, 0, 0, 0);
@@ -61,4 +61,28 @@ test("returns correct values for alpha > 0 < 90 if camera moved back", () => {
   expect(result.x).toBeCloseTo(Math.sqrt(zIn ** 2 / 2));
   expect(result.y).toBeCloseTo(yIn);
   expect(result.z).toBeCloseTo(Math.sqrt(zIn ** 2 / 2));
+});
+
+test("cam pos turf", () => {
+  const CAMERA = {
+    location: {
+      latitude: 49.75649,
+      longitude: 6.6422
+    }
+  };
+
+  const cameraZ = 10; // in m
+  const heading = 45;
+
+  const cameraPosition = getCameraPositionTurf(
+    CAMERA.location.latitude,
+    CAMERA.location.longitude,
+    cameraZ,
+    heading
+  );
+
+  const [x, y, z] = cameraPosition;
+  expect(x).toEqual(expect.any(Number));
+  expect(y).toEqual(expect.any(Number));
+  expect(z).toEqual(expect.any(Number));
 });
