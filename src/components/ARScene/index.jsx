@@ -5,10 +5,7 @@ import { Canvas, extend, useThree, useRender } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import useInterval from "@use-it/interval";
 
-import {
-  calculateTargetPositionInMeters,
-  getCameraPositionTurf
-} from "./utils";
+import { calculateTargetPositionInMeters, getCameraPosition } from "./utils";
 import church from "./church.jpg";
 
 extend({ OrbitControls });
@@ -89,7 +86,7 @@ const Scene = ({ targets, cameraProps, heading }) => {
       camera.rotation.y = offsetRad;
 
       const zDist = 0; // m
-      const [x, y, z] = getCameraPositionTurf(
+      const [x, y, z] = getCameraPosition(
         cameraProps.location.latitude,
         cameraProps.location.longitude,
         zDist,

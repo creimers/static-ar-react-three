@@ -5,12 +5,7 @@ import transformTranslate from "@turf/transform-translate";
 /**
  * calculate the position of the rotated camera using turf.js
  */
-export const getCameraPositionTurf = (
-  cameraLat,
-  cameraLng,
-  distance,
-  heading
-) => {
+export const getCameraPosition = (cameraLat, cameraLng, distance, heading) => {
   const options = {
     units: "kilometers"
   };
@@ -77,7 +72,7 @@ function toRadians(angle) {
   return angle * (Math.PI / 180);
 }
 
-export const getCameraPosition = (x, y, z, heading) => {
+export const getCameraPositionLegacy = (x, y, z, heading) => {
   let xHat = 0;
   let yHat = y;
   let zHat = 0;
