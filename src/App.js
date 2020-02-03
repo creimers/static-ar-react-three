@@ -20,13 +20,14 @@ const Legend = styled.div`
   padding: 0rem 1rem;
 `;
 
-const CAMERA_HEADING = 108.5; // == heading in ar.js
+const CAMERA_HEADING = 108.5;
 
 const CAMERA = {
   location: {
     latitude: 49.75649,
     longitude: 6.6422
-  }
+  },
+  position: [0, 2, 0]
 };
 
 const TARGETS = [

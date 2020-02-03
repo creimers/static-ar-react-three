@@ -89,12 +89,13 @@ const Scene = ({ targets, cameraProps, heading }) => {
       const [x, y, z] = getCameraPosition(
         cameraProps.location.latitude,
         cameraProps.location.longitude,
-        zDist,
+        cameraProps.position[2],
         heading * -1
       );
 
       // console.log(x, y, z);
 
+      camera.position.y = cameraProps.position[1];
       camera.position.z = z * -1;
       camera.position.x = x;
     }
@@ -138,7 +139,6 @@ const ARScene = ({ targets, cameraProps, heading }) => {
       <img src={church} alt="cars" />
       <Canvas
         camera={{
-          position: [0, 2, 0],
           fov: 55,
           near: 0.005,
           far: 10000,
