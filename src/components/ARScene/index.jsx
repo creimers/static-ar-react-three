@@ -5,7 +5,12 @@ import { Canvas, extend, useThree, useRender } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import useInterval from "@use-it/interval";
 
-import { calculateTargetPositionInMeters, getCameraPosition } from "./utils";
+import {
+  calculateTargetPositionInMeters,
+  getCameraPosition,
+  calculateConvertedTargetPosition,
+  degToRad
+} from "./utils";
 import church from "./church.jpg";
 
 extend({ OrbitControls });
@@ -45,9 +50,14 @@ function Controls() {
 }
 
 const Target = ({ cameraLocation, target }) => {
-  const position = calculateTargetPositionInMeters(
-    cameraLocation,
-    target.location
+  // const position = calculateTargetPositionInMeters(
+  //   cameraLocation,
+  //   target.location
+  // );
+
+  const position = calculateConvertedTargetPosition(
+    [cameraLocation.longitude, cameraLocation.latitude],
+    [target.location.longitude, target.location.latitude]
   );
 
   return (
@@ -70,9 +80,9 @@ const Scene = ({ targets, cameraProps, heading }) => {
   /////////////////////////////////////////////////////////////////////////////
   // initially set rotation order to YXZ (rotate the y axis (vertical)) first!!
   /////////////////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    camera.rotation.reorder("YXZ");
-  });
+  // useEffect(() => {
+  //   camera.rotation.reorder("YXZ");
+  // });
 
   useEffect(() => {
     if (!enableControls) {
@@ -83,7 +93,16 @@ const Scene = ({ targets, cameraProps, heading }) => {
       const offset = bearing % 360;
       const offsetRad = THREE.Math.degToRad(offset);
 
-      camera.rotation.y = offsetRad;
+      // camera.rotation.y = offsetRad;
+
+      camera.rotateOnWorldAxis(
+        new THREE.Vector3(1.0, 0.0, 0.0),
+        degToRad(cameraProps.pitch)
+      ); // pitch
+      camera.rotateOnWorldAxis(
+        new THREE.Vector3(0.0, 1.0, 0.0),
+        degToRad(180.0 - cameraProps.heading)
+      ); // yaw
 
       const zDist = 0; // m
       const [x, y, z] = getCameraPosition(
@@ -139,7 +158,7 @@ const ARScene = ({ targets, cameraProps, heading }) => {
       <img src={church} alt="cars" />
       <Canvas
         camera={{
-          fov: 55,
+          fov: 56,
           near: 0.005,
           far: 10000,
           zoom: 1

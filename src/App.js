@@ -21,12 +21,15 @@ const Legend = styled.div`
 `;
 
 const CAMERA_HEADING = 110.5;
+const CAMERA_PITCH = 16;
 
 const CAMERA = {
   location: {
     latitude: 49.75649,
     longitude: 6.6422
   },
+  heading: CAMERA_HEADING,
+  pitch: CAMERA_PITCH,
   position: [0, 2, 0]
 };
 

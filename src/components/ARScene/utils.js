@@ -1,6 +1,7 @@
 import distance from "@turf/distance";
 import { point } from "@turf/helpers";
 import transformTranslate from "@turf/transform-translate";
+import proj4 from "proj4";
 
 /**
  * calculate the position of the rotated camera using turf.js
@@ -68,7 +69,7 @@ export const calculateTargetPositionInMeters = (
   return [x, 0, z]; // [x, y, z]
 };
 
-function toRadians(angle) {
+export function degToRad(angle) {
   return angle * (Math.PI / 180);
 }
 
@@ -94,7 +95,7 @@ export const getCameraPositionLegacy = (x, y, z, heading) => {
     const hypotenuse = z;
     if (heading < 90) {
       alpha = heading;
-      oppositeLeg = Math.sin(toRadians(alpha)) * hypotenuse;
+      oppositeLeg = Math.sin(degToRad(alpha)) * hypotenuse;
       xHat = oppositeLeg;
       adjacentLeg = Math.sqrt(hypotenuse ** 2 - oppositeLeg ** 2);
       zHat = adjacentLeg;
@@ -108,4 +109,44 @@ export const getCameraPositionLegacy = (x, y, z, heading) => {
   }
 
   return { x: xHat, y: yHat, z: zHat };
+};
+
+/**
+ *
+ * @param {array} cameraLocation
+ * @param {array} targetLocation
+ */
+export const calculateConvertedTargetPosition = (
+  cameraLocation,
+  targetLocation
+) => {
+  // convert locations to webmercator
+
+  const cameraLocationConverted = proj4(
+    "EPSG:4326",
+    "EPSG:3857",
+    cameraLocation
+  );
+
+  const targetLocationConverted = proj4(
+    "EPSG:4326",
+    "EPSG:3857",
+    targetLocation
+  );
+
+  //NOTE: y coord is flipped
+
+  // var position = new THREE.Vector3(
+  //   CAMERA_CONVERTED.xy[0] - target.xy[0],
+  //   0.0,
+  //   target.xy[1] - CAMERA_CONVERTED.xy[1]
+  // );
+
+  const position = [
+    cameraLocationConverted[0] - targetLocationConverted[0],
+    0.0,
+    targetLocationConverted[1] - cameraLocationConverted[1]
+  ];
+
+  return position;
 };
