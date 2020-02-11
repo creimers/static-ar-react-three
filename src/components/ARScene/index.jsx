@@ -1,8 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, Suspense } from "react";
 import styled from "styled-components";
 import * as THREE from "three";
-import { Canvas, extend, useThree, useRender } from "react-three-fiber";
+import {
+  Canvas,
+  extend,
+  useThree,
+  useFrame,
+  useLoader
+} from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OBJLoader2 } from "three/examples/jsm/loaders/OBJLoader2";
 import useInterval from "@use-it/interval";
 
 import {
@@ -37,7 +44,7 @@ function Controls() {
   const ref = useRef();
   const { camera, gl } = useThree();
   // console.log(camera)
-  useRender(() => ref.current && ref.current.update());
+  useFrame(() => ref.current && ref.current.update());
   return (
     <orbitControls
       ref={ref}
@@ -77,6 +84,42 @@ const CircleMarker = ({ position, relativeBearing }) => {
     <mesh rotation={rotation} position={position} ref={ref}>
       <torusGeometry attach="geometry" args={[4, 0, 2, 75, Math.PI * 2]} />
       <meshBasicMaterial attach="material" color="yellow" />
+    </mesh>
+  );
+};
+
+const MarkerPin = ({ position }) => {
+  const ref = useRef();
+  const [geometry, setGeometry] = useState(null);
+  const pin = useLoader(OBJLoader2, "/mapPointer.obj");
+
+  const thePosition = [...position];
+  thePosition[1] = thePosition[1] += 3;
+
+  if (!geometry) {
+    const thePin = pin.clone(true);
+    pin.children[0].material[0].color.r = 252;
+    pin.children[0].material[0].color.g = 231;
+    pin.children[0].material[0].color.b = 0;
+    setGeometry(thePin);
+  }
+
+  useFrame(({ clock }) => {
+    // ref.current.rotateOnWorldAxis(
+    //   new THREE.Vector3(0.0, 1.0, 0.0),
+    //   degToRad(state.clock.getElapsedTime())
+    //   // Math.sin(clock.getElapsedTime()) * 0.1
+    // );
+    geometry.rotation.y += 0.02;
+
+    ref.current.position.y =
+      position[1] + 3 + Math.sin(clock.getElapsedTime() * 2) * 0.5;
+    // console.log(ref.current.position.y );
+  });
+
+  return (
+    <mesh ref={ref} position={thePosition}>
+      <primitive object={geometry} />
     </mesh>
   );
 };
@@ -134,6 +177,8 @@ const Scene = ({ targets, cameraProps, heading }) => {
       {enableControls && <Controls />}
       <primitive object={new THREE.AxesHelper(200)} />
       <primitive object={new THREE.GridHelper(1000, 50)} />
+      <ambientLight intensity={2} />
+      <pointLight position={[40, 40, 40]} />
       {targets.map((target, i) => {
         const position = calculateConvertedTargetPosition(
           [cameraProps.location.longitude, cameraProps.location.latitude],
@@ -143,9 +188,13 @@ const Scene = ({ targets, cameraProps, heading }) => {
           <React.Fragment key={`target-${i}`}>
             <Target target={target} position={position} />
             <CircleMarker position={position} relativeBearing={0} />
+            <Suspense fallback={null}>
+              <MarkerPin position={position} />
+            </Suspense>
           </React.Fragment>
         );
       })}
+
       {/* {targets.map((target, i) => {
         const position = calculateTargetPositionInMeters(
           cameraProps.location,
