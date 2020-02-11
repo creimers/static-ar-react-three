@@ -49,17 +49,7 @@ function Controls() {
   );
 }
 
-const Target = ({ cameraLocation, target }) => {
-  // const position = calculateTargetPositionInMeters(
-  //   cameraLocation,
-  //   target.location
-  // );
-
-  const position = calculateConvertedTargetPosition(
-    [cameraLocation.longitude, cameraLocation.latitude],
-    [target.location.longitude, target.location.latitude]
-  );
-
+const Target = ({ position, target }) => {
   return (
     <mesh
       position={position}
@@ -72,10 +62,29 @@ const Target = ({ cameraLocation, target }) => {
   );
 };
 
+const CircleMarker = ({ position, relativeBearing }) => {
+  const ref = useRef();
+  const rotation = [Math.PI / 2, 0, 0];
+
+  useEffect(() => {
+    ref.current.rotateOnWorldAxis(
+      new THREE.Vector3(0.0, 1.0, 0.0),
+      degToRad(relativeBearing * -1)
+    );
+  }, [relativeBearing]);
+
+  return (
+    <mesh rotation={rotation} position={position} ref={ref}>
+      <torusGeometry attach="geometry" args={[4, 0, 2, 75, Math.PI * 2]} />
+      <meshBasicMaterial attach="material" color="yellow" />
+    </mesh>
+  );
+};
+
 const enableControls = false;
 
 const Scene = ({ targets, cameraProps, heading }) => {
-  const { camera, scene } = useThree();
+  const { camera } = useThree();
 
   /////////////////////////////////////////////////////////////////////////////
   // initially set rotation order to YXZ (rotate the y axis (vertical)) first!!
@@ -89,9 +98,9 @@ const Scene = ({ targets, cameraProps, heading }) => {
       // calculation inspiration from here:
       // https://github.com/jeromeetienne/AR.js/blob/master/aframe/src/location-based/gps-camera.js#L312
 
-      const bearing = 360 - heading;
-      const offset = bearing % 360;
-      const offsetRad = THREE.Math.degToRad(offset);
+      // const bearing = 360 - heading;
+      // const offset = bearing % 360;
+      // const offsetRad = THREE.Math.degToRad(offset);
 
       // camera.rotation.y = offsetRad;
 
@@ -125,14 +134,19 @@ const Scene = ({ targets, cameraProps, heading }) => {
       {enableControls && <Controls />}
       <primitive object={new THREE.AxesHelper(200)} />
       <primitive object={new THREE.GridHelper(1000, 50)} />
-      {targets.map((target, i) => (
-        <Target
-          key={`target-${i}`}
-          target={target}
-          cameraLocation={cameraProps.location}
-        />
-      ))}
       {targets.map((target, i) => {
+        const position = calculateConvertedTargetPosition(
+          [cameraProps.location.longitude, cameraProps.location.latitude],
+          [target.location.longitude, target.location.latitude]
+        );
+        return (
+          <React.Fragment key={`target-${i}`}>
+            <Target target={target} position={position} />
+            <CircleMarker position={position} relativeBearing={0} />
+          </React.Fragment>
+        );
+      })}
+      {/* {targets.map((target, i) => {
         const position = calculateTargetPositionInMeters(
           cameraProps.location,
           target.location
@@ -147,7 +161,7 @@ const Scene = ({ targets, cameraProps, heading }) => {
             <lineBasicMaterial attach="material" color="pink" lineWidth="5" />
           </line>
         );
-      })}
+      })} */}
     </>
   );
 };
